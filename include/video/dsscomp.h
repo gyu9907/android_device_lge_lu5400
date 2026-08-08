@@ -632,6 +632,27 @@ struct dsscomp_wait_data {
 	enum dsscomp_wait_phase phase;	/* phase to wait for */
 };
 
+enum dsscomp_fbmem_type {
+	DSSCOMP_FBMEM_TILER2D = 0,
+	DSSCOMP_FBMEM_VRAM = 1,
+};
+
+/* Platform limits exported by the CM11 DSSCOMP kernel interface. */
+struct dsscomp_platform_info {
+	__u8 max_xdecim_2d;
+	__u8 max_ydecim_2d;
+	__u8 max_xdecim_1d;
+	__u8 max_ydecim_1d;
+	__u32 fclk;
+	__u8 min_width;
+	__u16 max_width;
+	__u16 max_height;
+	__u8 max_downscale;
+	__u16 integer_scale_ratio_limit;
+	__u32 tiler1d_slot_size;
+	enum dsscomp_fbmem_type fbmem_type;
+};
+
 /* IOCTLS */
 #define DSSCIOC_SETUP_MGR	_IOW('O', 128, struct dsscomp_setup_mgr_data)
 #define DSSCIOC_CHECK_OVL	_IOWR('O', 129, struct dsscomp_check_ovl_data)
@@ -641,4 +662,5 @@ struct dsscomp_wait_data {
 
 #define DSSCIOC_SETUP_DISPC	_IOW('O', 133, struct dsscomp_setup_dispc_data)
 #define DSSCIOC_SETUP_DISPLAY	_IOW('O', 134, struct dsscomp_setup_display_data)
+#define DSSCIOC_QUERY_PLATFORM	_IOR('O', 135, struct dsscomp_platform_info)
 #endif
