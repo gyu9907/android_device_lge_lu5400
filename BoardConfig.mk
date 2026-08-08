@@ -118,10 +118,7 @@ KERNEL_SGX_MODULES:
 
 TARGET_KERNEL_MODULES := KERNEL_SGX_MODULES
 
-# Keep early-boot ADB available while bringing up CM11.
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    ro.secure=0 \
-    ro.adb.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 
 BOARD_SEPOLICY_DIRS := \
     device/lge/p940/selinux
