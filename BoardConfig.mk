@@ -51,6 +51,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/lge/p940/include/
 
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/lge/p940/config/egl.cfg
+TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # OMAP
 OMAP_ENHANCEMENT := true
