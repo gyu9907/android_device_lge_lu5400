@@ -10,6 +10,8 @@ PRODUCT_RELEASE_NAME := P940
 
 # Boot animation
 TARGET_BOOTANIMATION_NAME := vertical-480x800
+TARGET_SCREEN_WIDTH := 480
+TARGET_SCREEN_HEIGHT := 800
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
