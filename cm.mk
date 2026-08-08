@@ -1,6 +1,10 @@
 ## Specify phone tech before including full_phone
 $(call inherit-product, vendor/cm/config/gsm.mk)
 
+# Disable ADB authentication during early CM11 bring-up. This must be set
+# before inheriting the CM common product configuration.
+BATMAN_LGU_INSECURE_ADB := true
+
 # Release name
 PRODUCT_RELEASE_NAME := P940
 
