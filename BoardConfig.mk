@@ -41,7 +41,7 @@ BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 
 # Define kernel config for inline building
-TARGET_KERNEL_CUSTOM_TOOLCHAIN_GNUEABI := arm-2010q1
+TARGET_KERNEL_SOURCE := kernel/lge/p940
 TARGET_KERNEL_CONFIG := cyanogenmod_p940_defconfig
 
 TARGET_BOARD_PLATFORM := omap4
