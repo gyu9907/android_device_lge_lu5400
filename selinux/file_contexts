@@ -16,8 +16,5 @@
 # Vibrator
 /dev/tspdrv                      u:object_r:input_device:s0
 
-# NFC
-/dev/pn544                       u:object_r:nfc_device:s0
-
 # for wpa_supp
 /dev/rfkill                      u:object_r:rfkill_device:s0
