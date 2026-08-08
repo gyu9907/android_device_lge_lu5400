@@ -4,8 +4,10 @@ on init
     export EXTERNAL_STORAGE /storage/sdcard0
     export SECONDARY_STORAGE /storage/sdcard1
 
-    mkdir /storage/sdcard0 0000 system system
-    mkdir /storage/sdcard1 0000 system system
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+    mkdir /storage/sdcard0 0700 root root
+    mkdir /storage/sdcard1 0700 root root
 
     # Support legacy paths
     symlink /storage/sdcard0 /sdcard
@@ -22,7 +24,7 @@ on fs
 # mount partitions
     mount_all /fstab.p940
 
-    setprop ro.crypto.fuse_sdcard false
+    setprop ro.crypto.fuse_sdcard true
 
     ## This needs to run ASAP to set up the framebuffer before zygote kicks in
     start pvrsrvinit
@@ -217,6 +219,14 @@ service pvrsrvinit /vendor/bin/pvrsrvinit
     user root
     group root
     oneshot
+
+# FUSE-wrap vold's media_rw mounts for application-visible storage.
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
+    class late_start
+    disabled
 
 service p2p_supplicant /system/bin/wpa_supplicant \
         -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -N \
