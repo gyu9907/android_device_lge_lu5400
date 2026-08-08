@@ -15,35 +15,56 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
-/* Read plain address retrieved by RIL and set the Wifi MAC 
- * address accordingly */
+/* Read device NVRAM and set the Wifi MAC address accordingly */
 
 int main() {
 
-	int fd1, fd2;
+	FILE *fd1;
+	int fd2;
 	int macbyte;
+	int addrcount = 0;
+	char macaddr[18] = { 0 };
+	int pos = 0;
 	int i;
 
-	fd1 = open("/data/misc/wifi/macAddress",O_RDONLY);
-	fd2 = open("/data/misc/wifi/config",O_WRONLY|O_CREAT|O_TRUNC,S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
-
-	write(fd2,"cur_etheraddr=",14);
-
-	for (i = 0; i<12; i++) {
-		lseek(fd1,i,SEEK_SET);
-		lseek(fd2,0,SEEK_END);
-		read(fd1,&macbyte,1);
-		if (i>1 && !(i%2))
-			write(fd2,":",1);
-		write(fd2,&macbyte,1);
+	fd1 = fopen("/data/misc/wifi/config", "w");
+	fd2 = open("/dev/block/platform/omap/omap_hsmmc.1/by-name/nv", O_RDONLY);
+	if (!fd1 || fd2 < 0) {
+		if (fd1)
+			fclose(fd1);
+		if (fd2 >= 0)
+			close(fd2);
+		return 1;
 	}
 
-	write(fd2,"\n",1);
-	close(fd1);
+	for (i = 0; i<12; i++) {
+		macbyte = 0;
+		lseek(fd2, i + 7680, SEEK_SET);
+		read(fd2, &macbyte, 1);
+		addrcount += macbyte;
+		if (i % 2 == 0 && i != 0)
+			macaddr[pos++] = ':';
+		macaddr[pos++] = macbyte;
+	}
+	macaddr[pos] = '\0';
+
 	close(fd2);
+
+	if (!addrcount) {
+		macbyte = rand() % 255;
+		/* least significant bit must be off, else it's multicast */
+		if (macbyte & 1)
+			macbyte--;
+		sprintf(macaddr, "02:ad:c0:ff:ef:%02x", macbyte);
+	}
+
+	fprintf(fd1, "cur_etheraddr=%s", macaddr);
+	fclose(fd1);
 	return 0;
 }

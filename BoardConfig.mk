@@ -38,7 +38,7 @@ BOARD_CUSTOM_BOOTIMG_MK := device/lge/p940/releasetools/boot.mk
 TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/lge/p940/releasetools/p940_ota_from_target_files
 
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE :=
+BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
 
 # Define kernel config for inline building
 TARGET_KERNEL_CUSTOM_TOOLCHAIN_GNUEABI := arm-2010q1
