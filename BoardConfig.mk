@@ -97,6 +97,11 @@ BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 
 COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB -DNEEDS_VECTORIMPL_SYMBOLS
 
+# The SGX540 cannot reliably feed GPU-rendered TILER buffers back to the CPU.
+# Make every screenshot caller, including the ElectronBeam animation, request
+# SurfaceFlinger's CPU readback path.
+COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
+
 BOARD_LIB_DUMPSTATE := libdumpstate.p940
 
 BOARD_MOBILEDATA_INTERFACE_NAME := "rmnet0"
