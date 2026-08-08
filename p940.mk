@@ -59,10 +59,6 @@ PRODUCT_COPY_FILES += \
 	device/lge/p940/config/omap4-keypad.kl:system/usr/keylayout/omap4-keypad.kl \
 	device/lge/p940/config/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
-# Bluetooth configuration files
-PRODUCT_COPY_FILES += \
-	system/bluetooth/data/main.le.conf:system/etc/bluetooth/main.conf
-
 PRODUCT_PROPERTY_OVERRIDES := \
 	wifi.interface=wlan0 \
 	wifi.features=p2p \
