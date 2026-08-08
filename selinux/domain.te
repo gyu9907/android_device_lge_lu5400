@@ -1,5 +1,3 @@
-allow domain powervr_device:chr_file rw_file_perms;
-
 ## fifo_cmd/dat
 allow system sensors_device:fifo_file rw_file_perms;
 
