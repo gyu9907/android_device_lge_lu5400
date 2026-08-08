@@ -1,17 +1,52 @@
 #!/bin/sh
 
+set -eu
+
 VENDOR=lge
 DEVICE=p940
 
-BASE=../../../vendor/$VENDOR/$DEVICE/proprietary
-rm -rf $BASE/*
+DEVICE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+ROOT_DIR=$(CDPATH= cd -- "$DEVICE_DIR/../../.." && pwd)
+BASE="$ROOT_DIR/vendor/$VENDOR/$DEVICE/proprietary"
+SOURCE=${1:-adb}
+STAGING="$ROOT_DIR/vendor/$VENDOR/$DEVICE/.proprietary.new.$$"
 
-for FILE in `cat proprietary-files.txt | grep -v ^# | grep -v ^$`; do
-    DIR=`dirname $FILE`
-    if [ ! -d $BASE/$DIR ]; then
-        mkdir -p $BASE/$DIR
+cleanup() {
+    rm -rf "$STAGING"
+}
+trap cleanup EXIT HUP INT TERM
+
+mkdir -p "$STAGING"
+
+while IFS='|' read -r FILE EXPECTED_HASH; do
+    case "$FILE" in
+        ''|'#'*) continue ;;
+    esac
+
+    DEST="$STAGING/$FILE"
+    mkdir -p "$(dirname -- "$DEST")"
+
+    if [ "$SOURCE" = adb ]; then
+        adb pull "/system/$FILE" "$DEST"
+    else
+        cp "$SOURCE/${FILE#/}" "$DEST"
     fi
-    adb pull /system/$FILE $BASE/$FILE
-done
 
-./setup-makefiles.sh
+    ACTUAL_HASH=$(sha1sum "$DEST" | awk '{print $1}')
+    if [ -z "${EXPECTED_HASH:-}" ]; then
+        echo "Missing SHA-1 for $FILE" >&2
+        exit 1
+    fi
+    if [ "$ACTUAL_HASH" != "$EXPECTED_HASH" ]; then
+        echo "SHA-1 mismatch for $FILE" >&2
+        echo "  expected: $EXPECTED_HASH" >&2
+        echo "  actual:   $ACTUAL_HASH" >&2
+        exit 1
+    fi
+done < "$DEVICE_DIR/proprietary-files.txt"
+
+rm -rf "$BASE"
+mv "$STAGING" "$BASE"
+trap - EXIT HUP INT TERM
+
+"$DEVICE_DIR/setup-makefiles.sh"

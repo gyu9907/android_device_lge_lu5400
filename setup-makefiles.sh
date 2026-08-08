@@ -1,11 +1,20 @@
 #!/bin/sh
 
+set -eu
+
 VENDOR=lge
 DEVICE=p940
-OUTDIR=vendor/$VENDOR/$DEVICE
-MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
 
-(cat << EOF) > $MAKEFILE
+DEVICE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+ROOT_DIR=$(CDPATH= cd -- "$DEVICE_DIR/../../.." && pwd)
+OUTDIR=vendor/$VENDOR/$DEVICE
+VENDOR_DIR="$ROOT_DIR/$OUTDIR"
+MAKEFILE="$VENDOR_DIR/$DEVICE-vendor-blobs.mk"
+FILES="$DEVICE_DIR/proprietary-files.txt"
+
+mkdir -p "$VENDOR_DIR"
+
+cat > "$MAKEFILE" << EOF
 # Copyright (C) 2012 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,17 +34,19 @@ MAKEFILE=../../../$OUTDIR/$DEVICE-vendor-blobs.mk
 PRODUCT_COPY_FILES += \\
 EOF
 
-LINEEND=" \\"
-COUNT=`cat proprietary-files.txt | grep -v ^# | grep -v ^$ | wc -l | awk {'print $1'}`
-for FILE in `cat proprietary-files.txt | grep -v ^# | grep -v ^$`; do
-    COUNT=`expr $COUNT - 1`
-    if [ $COUNT = "0" ]; then
-        LINEEND=""
-    fi
-    echo "    $OUTDIR/proprietary/$FILE:system/$FILE$LINEEND" >> $MAKEFILE
-done
+COUNT=$(awk -F'|' '!/^[[:space:]]*(#|$)/ { count++ } END { print count + 0 }' "$FILES")
+INDEX=0
+while IFS='|' read -r FILE EXPECTED_HASH; do
+    case "$FILE" in
+        ''|'#'*) continue ;;
+    esac
+    INDEX=$((INDEX + 1))
+    LINEEND=' \'
+    [ "$INDEX" -eq "$COUNT" ] && LINEEND=''
+    printf '    %s/proprietary/%s:system/%s%s\n' "$OUTDIR" "$FILE" "$FILE" "$LINEEND" >> "$MAKEFILE"
+done < "$FILES"
 
-(cat << EOF) > ../../../$OUTDIR/$DEVICE-vendor.mk
+cat > "$VENDOR_DIR/$DEVICE-vendor.mk" << EOF
 # Copyright (C) 2012 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -69,7 +80,7 @@ DEVICE_PACKAGE_OVERLAYS := vendor/$VENDOR/$DEVICE/overlay
 \$(call inherit-product, vendor/$VENDOR/$DEVICE/$DEVICE-vendor-blobs.mk)
 EOF
 
-(cat << EOF) > ../../../$OUTDIR/BoardConfigVendor.mk
+cat > "$VENDOR_DIR/BoardConfigVendor.mk" << EOF
 # Copyright (C) 2012 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

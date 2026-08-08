@@ -1,1 +1,21 @@
-Device configuration for the LGE P940 (LG Prada 3.0)
+Device configuration for the LGE LU5400 (LG Prada 3.0)
+
+Proprietary blobs
+-----------------
+
+proprietary-files.txt is the canonical blob manifest. Each entry uses:
+
+    system/relative/path|sha1
+
+Extract the known-good blobs from a connected, booted device:
+
+    device/lge/p940/extract-files.sh
+
+Alternatively, extract them from an unpacked system directory:
+
+    device/lge/p940/extract-files.sh /path/to/system
+
+All 55 files are staged and checked before vendor/lge/p940/proprietary is
+replaced. A missing file or SHA-1 mismatch aborts extraction and preserves the
+existing vendor tree. setup-makefiles.sh regenerates the vendor makefiles from
+the same manifest without copying or storing the proprietary files in git.
