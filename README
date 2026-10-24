@@ -33,3 +33,35 @@ All 55 files are staged and checked before vendor/lge/lu5400/proprietary is
 replaced. A missing file or SHA-1 mismatch aborts extraction and preserves the
 existing vendor tree. setup-makefiles.sh regenerates the vendor makefiles from
 the same manifest without copying or storing the proprietary files in git.
+
+Device-local graphics and camera compatibility
+----------------------------------------------
+
+hwc/ contains the CM11 LG OMAP4 HWC, its private headers, and the EDID parser.
+It does not read sources from device/lge/p920.
+
+The original camera.omap4.so expects legacy jhead functions through a
+libexif.so dependency. camera/Android.mk builds the bundled camera/jhead sources
+as a separate libjex.so, without changing or depending on external/libexif or
+external/jhead. The short library name fits in the original ELF string slot.
+
+camera/fixup_camera.py verifies the camera blob against proprietary-files.txt
+and changes only that DT_NEEDED name in an intermediate copy. camera.lu5400
+installs the result as system/lib/hw/camera.lu5400.so and requires libjex.
+Android's HAL loader selects this file using ro.hardware=lu5400 before falling
+back to the platform's camera.omap4.so. The vendor makefile
+omits the raw camera copy to avoid overwriting the fixed module. The original
+vendor blob and its extraction hash stay unchanged; extracting from a built
+ROM's fixed camera will intentionally fail the original-blob hash check.
+
+For later Android versions, retain this device-owned jhead implementation
+instead of using the ROM's EXIF implementation. Android 7.1.2 in the local
+android7 tree no longer includes external/jhead. Its Lineage linker supports
+LINKER_FORCED_SHIM_LIBS as another way to inject a compatibility library, but
+the CM11 implementation uses a direct ELF dependency and needs no linker patch.
+This isolates EXIF compatibility only: camera HAL, libui/libgui, OMX, gralloc,
+SELinux, and linker namespace changes still require validation for each port.
+The original camera also has DT_TEXTREL. The supplied Android 7 linker supports
+TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS in BoardConfig.mk for such platform
+blobs; a later port must explicitly evaluate this requirement. No Android 7
+device tree or framework source is modified by this CM11 change.

@@ -34,11 +34,12 @@ cat > "$MAKEFILE" << EOF
 PRODUCT_COPY_FILES += \\
 EOF
 
-COUNT=$(awk -F'|' '!/^[[:space:]]*(#|$)/ { count++ } END { print count + 0 }' "$FILES")
+# The camera HAL is installed by camera/Android.mk after a build-time fixup.
+COUNT=$(awk -F'|' '!/^[[:space:]]*(#|$)/ && $1 != "lib/hw/camera.omap4.so" { count++ } END { print count + 0 }' "$FILES")
 INDEX=0
 while IFS='|' read -r FILE EXPECTED_HASH; do
     case "$FILE" in
-        ''|'#'*) continue ;;
+        ''|'#'*|'lib/hw/camera.omap4.so') continue ;;
     esac
     INDEX=$((INDEX + 1))
     LINEEND=' \'

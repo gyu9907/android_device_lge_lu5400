@@ -1,0 +1,13 @@
+LU5400 hardware composer
+=======================
+
+The HWC 1.0 sources, private HWC/ION headers, and EDID parser were imported
+from device/lge/p920 at ee399c8. They are built entirely from this directory;
+the P920 device tree is not a build dependency.
+
+LGE_LU5400_GRALLOC_ABI keeps the bPost2FindFramebuffer field and Post2 layout
+required by the LU5400 proprietary gralloc. The Linux/video headers continue
+to come from the LU5400 device's ../include directory. Private HWC headers
+live in hwc/include so they do not change other device modules' header search.
+
+Original source licenses and copyright notices are retained in each file.

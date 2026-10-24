@@ -72,6 +72,9 @@ PRODUCT_PACKAGES += \
 	wifimac \
 	Prada30Settings
 
+# Device-local legacy EXIF compatibility for the proprietary camera HAL.
+PRODUCT_PACKAGES += camera.lu5400 libjex
+
 # NFC
 PRODUCT_PACKAGES += \
 	libnfc \
