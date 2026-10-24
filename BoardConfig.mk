@@ -48,6 +48,7 @@ TARGET_BOARD_PLATFORM := omap4
 TARGET_BOOTLOADER_BOARD_NAME := lu5400
 
 TARGET_SPECIFIC_HEADER_PATH := device/lge/lu5400/include/
+BOARD_HARDWARE_CLASS := device/lge/lu5400/cmhw
 
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/lge/lu5400/config/egl.cfg

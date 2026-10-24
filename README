@@ -65,3 +65,25 @@ The original camera also has DT_TEXTREL. The supplied Android 7 linker supports
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS in BoardConfig.mk for such platform
 blobs; a later port must explicitly evaluate this requirement. No Android 7
 device tree or framework source is modified by this CM11 change.
+
+Display color calibration
+-------------------------
+
+cmhw/ connects the CM11 Settings > Display > Color calibration dialog to
+/sys/devices/omapdss/display0/gamma_tuning. BOARD_HARDWARE_CLASS selects this
+implementation; the common Settings and hardware framework need no changes.
+The existing init rule grants the system user read/write access to the node.
+
+Each RGB gain ranges from 0 to 255. The default 255/255/255 preserves the
+panel's boot-time gamma table, including any RGB= bootloader calibration.
+The kernel reports the current gains, rejects malformed/out-of-range writes,
+and reapplies the gains after panel initialization or DISPC context loss.
+Settings provides live preview, cancel/reset, and saved-value restoration at
+boot. Both the LGD and Hitachi panel drivers use the same calibration state.
+
+Device verification after flashing the matching ROM and kernel:
+- Open Color calibration and adjust each channel independently.
+- Cancel should restore the previous values; Reset should return to 255/255/255.
+- Confirm a value, then verify it survives screen off/on and reboot.
+- Read gamma_tuning to check the comma-separated values match the sliders.
+- Invalid values (for example 256,255,255) must fail without changing them.
