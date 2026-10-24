@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#define LOG_TAG "P940 PowerHAL"
+#define LOG_TAG "LU5400 PowerHAL"
 #include <utils/Log.h>
 
 #include <hardware/hardware.h>
@@ -37,7 +37,7 @@
 static char screen_off_max_freq[MAX_BUF_SZ] = "600000";
 static char scaling_max_freq[MAX_BUF_SZ] = "1008000";
 
-struct p940_power_module {
+struct lu5400_power_module {
     struct power_module base;
     pthread_mutex_t lock;
     int boostpulse_fd;
@@ -82,7 +82,7 @@ int sysfs_read(const char *path, char *buf, size_t size)
   return len;
 }
 
-static void p940_power_init(struct power_module *module)
+static void lu5400_power_init(struct power_module *module)
 {
     sysfs_write("/sys/devices/system/cpu/cpufreq/interactive/timer_rate",
                 TIMER_RATE_SCREEN_ON);
@@ -98,29 +98,29 @@ static void p940_power_init(struct power_module *module)
                 "80000");
 }
 
-static int boostpulse_open(struct p940_power_module *p940)
+static int boostpulse_open(struct lu5400_power_module *lu5400)
 {
     char buf[80];
 
-    pthread_mutex_lock(&p940->lock);
+    pthread_mutex_lock(&lu5400->lock);
 
-    if (p940->boostpulse_fd < 0) {
-        p940->boostpulse_fd = open(BOOSTPULSE_PATH, O_WRONLY);
+    if (lu5400->boostpulse_fd < 0) {
+        lu5400->boostpulse_fd = open(BOOSTPULSE_PATH, O_WRONLY);
 
-        if (p940->boostpulse_fd < 0) {
-            if (!p940->boostpulse_warned) {
+        if (lu5400->boostpulse_fd < 0) {
+            if (!lu5400->boostpulse_warned) {
                 strerror_r(errno, buf, sizeof(buf));
                 ALOGE("Error opening %s: %s\n", BOOSTPULSE_PATH, buf);
-                p940->boostpulse_warned = 1;
+                lu5400->boostpulse_warned = 1;
             }
         }
     }
 
-    pthread_mutex_unlock(&p940->lock);
-    return p940->boostpulse_fd;
+    pthread_mutex_unlock(&lu5400->lock);
+    return lu5400->boostpulse_fd;
 }
 
-static void p940_power_set_interactive(struct power_module *module, int on)
+static void lu5400_power_set_interactive(struct power_module *module, int on)
 {
     int len;
 
@@ -144,10 +144,10 @@ static void p940_power_set_interactive(struct power_module *module, int on)
                 on ? TIMER_RATE_SCREEN_ON : TIMER_RATE_SCREEN_OFF);
 }
 
-static void p940_power_hint(struct power_module *module, power_hint_t hint,
+static void lu5400_power_hint(struct power_module *module, power_hint_t hint,
                             void *data)
 {
-    struct p940_power_module *p940 = (struct p940_power_module *) module;
+    struct lu5400_power_module *lu5400 = (struct lu5400_power_module *) module;
     char buf[80];
     int len;
     int duration = 1;
@@ -158,9 +158,9 @@ static void p940_power_hint(struct power_module *module, power_hint_t hint,
         if (data != NULL)
             duration = (int) data;
 
-        if (boostpulse_open(p940) >= 0) {
+        if (boostpulse_open(lu5400) >= 0) {
             snprintf(buf, sizeof(buf), "%d", duration);
-            len = write(p940->boostpulse_fd, buf, strlen(buf));
+            len = write(lu5400->boostpulse_fd, buf, strlen(buf));
 
             if (len < 0) {
                 strerror_r(errno, buf, sizeof(buf));
@@ -181,21 +181,21 @@ static struct hw_module_methods_t power_module_methods = {
     .open = NULL,
 };
 
-struct p940_power_module HAL_MODULE_INFO_SYM = {
+struct lu5400_power_module HAL_MODULE_INFO_SYM = {
     base: {
         common: {
             tag: HARDWARE_MODULE_TAG,
             module_api_version: POWER_MODULE_API_VERSION_0_2,
             hal_api_version: HARDWARE_HAL_API_VERSION,
             id: POWER_HARDWARE_MODULE_ID,
-            name: "P940 Power HAL",
+            name: "LU5400 Power HAL",
             author: "The Android Open Source Project",
             methods: &power_module_methods,
         },
 
-       init: p940_power_init,
-       setInteractive: p940_power_set_interactive,
-       powerHint: p940_power_hint,
+       init: lu5400_power_init,
+       setInteractive: lu5400_power_set_interactive,
+       powerHint: lu5400_power_hint,
     },
 
     lock: PTHREAD_MUTEX_INITIALIZER,

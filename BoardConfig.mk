@@ -18,7 +18,7 @@
 USE_CAMERA_STUB := false
 
 # Use the non-open-source parts, if they're present
--include vendor/lge/p940/BoardConfigVendor.mk
+-include vendor/lge/lu5400/BoardConfigVendor.mk
 
 TARGET_ARCH := arm
 TARGET_CPU_ABI := armeabi-v7a
@@ -34,23 +34,23 @@ BOARD_GLOBAL_CFLAGS += -DNEEDS_ARM_ERRATA_754319_754320
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
-BOARD_CUSTOM_BOOTIMG_MK := device/lge/p940/releasetools/boot.mk
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/lge/p940/releasetools/p940_ota_from_target_files
+BOARD_CUSTOM_BOOTIMG_MK := device/lge/lu5400/releasetools/boot.mk
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/lge/lu5400/releasetools/lu5400_ota_from_target_files
 
 BOARD_KERNEL_BASE := 0x80000000
-BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive androidboot.hardware=lu5400
 
 # Define kernel config for inline building
-TARGET_KERNEL_SOURCE := kernel/lge/p940
-TARGET_KERNEL_CONFIG := cyanogenmod_p940_defconfig
+TARGET_KERNEL_SOURCE := kernel/lge/lu5400
+TARGET_KERNEL_CONFIG := cyanogenmod_lu5400_defconfig
 
 TARGET_BOARD_PLATFORM := omap4
-TARGET_BOOTLOADER_BOARD_NAME := p940
+TARGET_BOOTLOADER_BOARD_NAME := lu5400
 
-TARGET_SPECIFIC_HEADER_PATH := device/lge/p940/include/
+TARGET_SPECIFIC_HEADER_PATH := device/lge/lu5400/include/
 
 USE_OPENGL_RENDERER := true
-BOARD_EGL_CFG := device/lge/p940/config/egl.cfg
+BOARD_EGL_CFG := device/lge/lu5400/config/egl.cfg
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 
 # OMAP
@@ -89,8 +89,8 @@ BOARD_LEGACY_NL80211_STA_EVENTS := true
 
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/p940/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/lge/p940/bluetooth/vnd_p940.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/lge/lu5400/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := device/lge/lu5400/bluetooth/vnd_lu5400.txt
 
 BOARD_HAVE_FM_RADIO := true
 BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
@@ -102,17 +102,17 @@ COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB -DNEEDS_VECTORIMPL_SYMBOLS
 # SurfaceFlinger's CPU readback path.
 COMMON_GLOBAL_CFLAGS += -DFORCE_SCREENSHOT_CPU_PATH
 
-BOARD_LIB_DUMPSTATE := libdumpstate.p940
+BOARD_LIB_DUMPSTATE := libdumpstate.lu5400
 
 BOARD_MOBILEDATA_INTERFACE_NAME := "rmnet0"
 
-BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/lge/p940/vibrator.c
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/lge/lu5400/vibrator.c
 
 # Radio fixes
-BOARD_RIL_CLASS := ../../../device/lge/p940/ril/
+BOARD_RIL_CLASS := ../../../device/lge/lu5400/ril/
 
 KERNEL_SGX_MODULES:
-	make -C device/lge/p940/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android/ O=$(KERNEL_OUT) KERNELDIR=$(ANDROID_BUILD_TOP)/$(KERNEL_SRC) ARCH="arm" $(ARM_CROSS_COMPILE) KERNEL_CROSS_COMPILE=$(ARM_CROSS_COMPILE) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	make -C device/lge/lu5400/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android/ O=$(KERNEL_OUT) KERNELDIR=$(ANDROID_BUILD_TOP)/$(KERNEL_SRC) ARCH="arm" $(ARM_CROSS_COMPILE) KERNEL_CROSS_COMPILE=$(ARM_CROSS_COMPILE) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
 	mkdir -p $(TARGET_OUT)/modules/
 	mv $(OUT)/target/*sgx540_120.ko $(TARGET_OUT)/modules/
 
@@ -121,7 +121,7 @@ TARGET_KERNEL_MODULES := KERNEL_SGX_MODULES
 ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
 
 BOARD_SEPOLICY_DIRS := \
-    device/lge/p940/selinux
+    device/lge/lu5400/selinux
 
 BOARD_SEPOLICY_UNION := \
     file_contexts \
@@ -130,8 +130,8 @@ BOARD_SEPOLICY_UNION := \
     domain.te
 
 BOARD_RECOVERY_ALWAYS_WIPES := true
-TARGET_RECOVERY_INITRC := device/lge/p940/recovery/init.rc
-TARGET_RECOVERY_FSTAB := device/lge/p940/fstab.p940
+TARGET_RECOVERY_INITRC := device/lge/lu5400/recovery/init.rc
+TARGET_RECOVERY_FSTAB := device/lge/lu5400/fstab.lu5400
 RECOVERY_FSTAB_VERSION := 2
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file"
 TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/platform/omap/omap_hsmmc.1/by-name/misc; sync"
@@ -139,7 +139,7 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HDPI_RECOVERY := true
 BOARD_USE_CUSTOM_FONT := true
 
-BOARD_CUSTOM_GRAPHICS := ../../../device/lge/p940/recovery/recovery-gfx.c
+BOARD_CUSTOM_GRAPHICS := ../../../device/lge/lu5400/recovery/recovery-gfx.c
 BOARD_CHARGER_ENABLE_SUSPEND := true
 
 # Bootanimation

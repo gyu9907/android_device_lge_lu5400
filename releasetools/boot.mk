@@ -1,4 +1,4 @@
-IFTTOOL := device/lge/p940/releasetools/ifttool/signimg.sh
+IFTTOOL := device/lge/lu5400/releasetools/ifttool/signimg.sh
 
 INSTALLED_BOOTIMAGE_TARGET := $(PRODUCT_OUT)/boot.img
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES)

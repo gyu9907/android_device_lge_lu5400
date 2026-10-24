@@ -1,5 +1,19 @@
 Device configuration for the LGE LU5400 (LG Prada 3.0)
 
+Build target
+------------
+
+    source build/envsetup.sh
+    lunch cm_lu5400-userdebug
+
+Source trees: device/lge/lu5400, kernel/lge/lu5400, vendor/lge/lu5400.
+Kernel configuration: cyanogenmod_lu5400_defconfig.
+Build output: out/target/product/lu5400.
+
+The kernel still supports other P2 variants. P940-specific board selections
+and the stock p2_p940_defconfig describe the separate international model;
+the LU5400 build selects CONFIG_MACH_LGE_P2_LU5400.
+
 Proprietary blobs
 -----------------
 
@@ -9,13 +23,13 @@ proprietary-files.txt is the canonical blob manifest. Each entry uses:
 
 Extract the known-good blobs from a connected, booted device:
 
-    device/lge/p940/extract-files.sh
+    device/lge/lu5400/extract-files.sh
 
 Alternatively, extract them from an unpacked system directory:
 
-    device/lge/p940/extract-files.sh /path/to/system
+    device/lge/lu5400/extract-files.sh /path/to/system
 
-All 55 files are staged and checked before vendor/lge/p940/proprietary is
+All 55 files are staged and checked before vendor/lge/lu5400/proprietary is
 replaced. A missing file or SHA-1 mismatch aborts extraction and preserves the
 existing vendor tree. setup-makefiles.sh regenerates the vendor makefiles from
 the same manifest without copying or storing the proprietary files in git.

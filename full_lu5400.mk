@@ -14,11 +14,11 @@
  
 #
 # This file is the build configuration for a full Android
-# build for maguro hardware. This cleanly combines a set of
+# build for LU5400 hardware. This cleanly combines a set of
 # device-specific aspects (drivers) with a device-agnostic
 # product configuration (apps). Except for a few implementation
 # details, it only fundamentally contains two inherit-product
-# lines, full and maguro, hence its name.
+# lines, full and lu5400, hence its name.
 #
  
 # Torch
@@ -28,11 +28,11 @@ PRODUCT_PACKAGES := \
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from core device
-$(call inherit-product, device/lge/p940/p940.mk)
+$(call inherit-product, device/lge/lu5400/lu5400.mk)
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := full_p940
-PRODUCT_DEVICE := p940
+PRODUCT_NAME := full_lu5400
+PRODUCT_DEVICE := lu5400
 PRODUCT_BRAND := lge
 PRODUCT_MANUFACTURER := lge
-PRODUCT_MODEL := P940
+PRODUCT_MODEL := LG-LU5400

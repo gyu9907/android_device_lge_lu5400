@@ -19,7 +19,7 @@ LOCAL_C_INCLUDES := frameworks/native/cmds/dumpstate
 
 LOCAL_SRC_FILES := dumpstate.c
 
-LOCAL_MODULE := libdumpstate.p940
+LOCAL_MODULE := libdumpstate.lu5400
 
 LOCAL_MODULE_TAGS := optional
 

@@ -14,8 +14,8 @@
 
 $(call inherit-product, device/common/gps/gps_eu.mk)
 
-DEVICE_PACKAGE_OVERLAYS := device/lge/p940/overlay
-TARGET_SPECIFIC_HEADER_PATH := device/lge/p940/include
+DEVICE_PACKAGE_OVERLAYS := device/lge/lu5400/overlay
+TARGET_SPECIFIC_HEADER_PATH := device/lge/lu5400/include
 
 # make fallback to mdpi possible
 # e.g. for maintaining crisp assets on 160dpi
@@ -28,16 +28,16 @@ PRODUCT_PACKAGES := \
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio_policy.default \
-	audio.primary.p940 \
-	audio.hdmi.p940 \
+	audio.primary.lu5400 \
+	audio.hdmi.lu5400 \
 	libaudioutils
 
 PRODUCT_COPY_FILES := \
-	device/lge/p940/init.p940.rc:root/init.p940.rc \
-	device/lge/p940/init.p940.usb.rc:root/init.p940.usb.rc \
-	device/lge/p940/ueventd.p940.rc:root/ueventd.p940.rc \
-	device/lge/p940/fstab.p940:root/fstab.p940 \
-	device/lge/p940/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
+	device/lge/lu5400/init.lu5400.rc:root/init.lu5400.rc \
+	device/lge/lu5400/init.lu5400.usb.rc:root/init.lu5400.usb.rc \
+	device/lge/lu5400/ueventd.lu5400.rc:root/ueventd.lu5400.rc \
+	device/lge/lu5400/fstab.lu5400:root/fstab.lu5400 \
+	device/lge/lu5400/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
 
 # charger mode
 PRODUCT_PACKAGES += \
@@ -46,18 +46,18 @@ PRODUCT_PACKAGES += \
 
 # configs
 PRODUCT_COPY_FILES += \
-	device/lge/p940/config/media_profiles.xml:system/etc/media_profiles.xml \
-	device/lge/p940/config/media_codecs.xml:system/etc/media_codecs.xml \
-	device/lge/p940/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	device/lge/p940/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
-	device/lge/p940/config/gps_brcm_conf.xml:system/etc/gps_brcm_conf.xml
+	device/lge/lu5400/config/media_profiles.xml:system/etc/media_profiles.xml \
+	device/lge/lu5400/config/media_codecs.xml:system/etc/media_codecs.xml \
+	device/lge/lu5400/audio/audio_policy.conf:system/etc/audio_policy.conf \
+	device/lge/lu5400/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
+	device/lge/lu5400/config/gps_brcm_conf.xml:system/etc/gps_brcm_conf.xml
 
 # keylayouts and touchscreen
 PRODUCT_COPY_FILES += \
-	device/lge/p940/config/touch_dev.kl:system/usr/keylayout/touch_dev.kl \
-	device/lge/p940/config/touch_dev.idc:system/usr/idc/touch_dev.idc \
-	device/lge/p940/config/omap4-keypad.kl:system/usr/keylayout/omap4-keypad.kl \
-	device/lge/p940/config/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
+	device/lge/lu5400/config/touch_dev.kl:system/usr/keylayout/touch_dev.kl \
+	device/lge/lu5400/config/touch_dev.idc:system/usr/idc/touch_dev.idc \
+	device/lge/lu5400/config/omap4-keypad.kl:system/usr/keylayout/omap4-keypad.kl \
+	device/lge/lu5400/config/twl6030_pwrbutton.kl:system/usr/keylayout/twl6030_pwrbutton.kl
 
 PRODUCT_PROPERTY_OVERRIDES := \
 	wifi.interface=wlan0 \
@@ -65,10 +65,10 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	wifi.supplicant_scan_interval=45
 
 PRODUCT_PACKAGES += \
-    hwcomposer.p940 \
-	lights.p940 \
-	power.p940 \
-	nfc.p940 \
+    hwcomposer.lu5400 \
+	lights.lu5400 \
+	power.lu5400 \
+	nfc.lu5400 \
 	wifimac \
 	Prada30Settings
 
@@ -153,7 +153,7 @@ PRODUCT_COPY_FILES += \
 	
 # ril
 PRODUCT_COPY_FILES += \
-	device/lge/p940/config/ipc_channels.config:system/etc/ipc_channels.config
+	device/lge/lu5400/config/ipc_channels.config:system/etc/ipc_channels.config
 
 # Commands to migrate prefs from com.android.nfc3 to com.android.nfc
 PRODUCT_COPY_FILES += \
@@ -171,9 +171,9 @@ PRODUCT_COPY_FILES += \
 
 # NFCEE access control
 ifeq ($(TARGET_BUILD_VARIANT),user)
-    NFCEE_ACCESS_PATH := device/lge/p940/config/nfcee_access.xml
+    NFCEE_ACCESS_PATH := device/lge/lu5400/config/nfcee_access.xml
 else
-    NFCEE_ACCESS_PATH := device/lge/p940/config/nfcee_access_debug.xml
+    NFCEE_ACCESS_PATH := device/lge/lu5400/config/nfcee_access_debug.xml
 endif
 PRODUCT_COPY_FILES += \
     $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
@@ -204,4 +204,4 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 $(call inherit-product-if-exists, vendor/nxp/pn544/nxp-pn544-fw-vendor.mk)
 
-$(call inherit-product-if-exists, vendor/lge/p940/p940-vendor.mk)
+$(call inherit-product-if-exists, vendor/lge/lu5400/lu5400-vendor.mk)

@@ -303,7 +303,7 @@ struct hw_module_t HAL_MODULE_INFO_SYM = {
     .version_major = 1,
     .version_minor = 0,
     .id = LIGHTS_HARDWARE_MODULE_ID,
-    .name = "LGE P940 lights Module",
+    .name = "LGE LU5400 lights Module",
     .author = "Micha LaQua",
     .methods = &lights_module_methods,
 };

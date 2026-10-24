@@ -13,7 +13,7 @@
 # limitations under the License.
 
 #
-# Input Device Configuration File for the p940 touchscreen
+# Input Device Configuration File for the lu5400 touchscreen
 #
 
 # Basic Parameters

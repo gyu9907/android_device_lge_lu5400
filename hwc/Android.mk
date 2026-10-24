@@ -20,8 +20,8 @@ LOCAL_STATIC_LIBRARIES := libpng
 
 LOCAL_MODULE_TAGS := optional
 
-LOCAL_MODULE := hwcomposer.p940
-LOCAL_CFLAGS := -DLOG_TAG=\"ti_hwc\" -DLGE_P940_GRALLOC_ABI
+LOCAL_MODULE := hwcomposer.lu5400
+LOCAL_CFLAGS := -DLOG_TAG=\"ti_hwc\" -DLGE_LU5400_GRALLOC_ABI
 LOCAL_C_INCLUDES += \
     external/libpng \
     external/zlib \

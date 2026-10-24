@@ -3,7 +3,7 @@
 set -eu
 
 VENDOR=lge
-DEVICE=p940
+DEVICE=lu5400
 
 DEVICE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 ROOT_DIR=$(CDPATH= cd -- "$DEVICE_DIR/../../.." && pwd)

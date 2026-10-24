@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.io.SyncFailedException;
 
 public class Utils {
-    private static final String TAG = "P940Parts_Utils";
-    private static final String TAG_READ = "P940Parts_Utils_Read";
-    private static final String TAG_WRITE = "P940Parts_Utils_Write";
+    private static final String TAG = "LU5400Parts_Utils";
+    private static final String TAG_READ = "LU5400Parts_Utils_Read";
+    private static final String TAG_WRITE = "LU5400Parts_Utils_Write";
 
     /**
      * Write a string value to the specified file.
