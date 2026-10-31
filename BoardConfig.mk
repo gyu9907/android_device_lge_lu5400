@@ -66,6 +66,10 @@ TARGET_USES_GL_VENDOR_EXTENSIONS := false
 BOARD_USES_TI_CAMERA_HAL := true
 TI_OMAP4_CAMERAHAL_VARIANT := DONOTBUILDIT
 HARDWARE_OMX := true
+# Keep LG vendor DOMX/OMX; exclude duplicate generic TI source rules.
+BOARD_USE_TI_CUSTOM_DOMX := true
+
+# CM12.1 freeNode has no scoped mLock across delete; the CM11 fix is inapplicable.
 
 BOARD_VOLD_MAX_PARTITIONS := 16
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
@@ -96,7 +100,9 @@ BOARD_BLUEDROID_VENDOR_CONF := device/lge/lu5400/bluetooth/vnd_lu5400.txt
 BOARD_HAVE_FM_RADIO := true
 BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 
-COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB -DNEEDS_VECTORIMPL_SYMBOLS
+COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB
+# Motorola 900cf8b: legacy vector ABI is target-only.
+TARGET_RELEASE_CPPFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
 # The SGX540 cannot reliably feed GPU-rendered TILER buffers back to the CPU.
 # Make every screenshot caller, including the ElectronBeam animation, request
@@ -113,7 +119,7 @@ BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/lge/lu5400/vibrator.c
 BOARD_RIL_CLASS := ../../../device/lge/lu5400/ril/
 
 KERNEL_SGX_MODULES:
-	make -C device/lge/lu5400/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android/ O=$(KERNEL_OUT) KERNELDIR=$(ANDROID_BUILD_TOP)/$(KERNEL_SRC) ARCH="arm" $(ARM_CROSS_COMPILE) KERNEL_CROSS_COMPILE=$(ARM_CROSS_COMPILE) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	make -C device/lge/lu5400/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android/ O=$(KERNEL_OUT) KERNELDIR=$(ANDROID_BUILD_TOP)/$(KERNEL_SRC) ARCH="arm" $(KERNEL_CROSS_COMPILE) KERNEL_CROSS_COMPILE="$(KERNEL_TOOLCHAIN_PATH)" TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
 	mkdir -p $(TARGET_OUT)/modules/
 	mv $(OUT)/target/*sgx540_120.ko $(TARGET_OUT)/modules/
 

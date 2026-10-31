@@ -1,11 +1,10 @@
 ## Specify phone tech before including full_phone
-$(call inherit-product, vendor/cm/config/gsm.mk)
+# CM12.1 common_full_phone.mk already inherits telephony.mk.
 
 # Release name
 PRODUCT_RELEASE_NAME := LU5400
 
 # Boot animation
-TARGET_BOOTANIMATION_NAME := vertical-480x800
 TARGET_SCREEN_WIDTH := 480
 TARGET_SCREEN_HEIGHT := 800
 

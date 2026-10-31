@@ -20,7 +20,8 @@ TARGET_SPECIFIC_HEADER_PATH := device/lge/lu5400/include
 # make fallback to mdpi possible
 # e.g. for maintaining crisp assets on 160dpi
 PRODUCT_AAPT_CONFIG := normal hdpi mdpi
-PRODUCT_AAPT_PREF_CONFIG := hdpi mdpi
+# CM12.1 recovery requires one preferred density; keep mdpi in AAPT_CONFIG.
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 PRODUCT_PACKAGES := \
 	libinvensense_mpl
@@ -52,6 +53,12 @@ PRODUCT_COPY_FILES += \
 	device/lge/lu5400/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
 	device/lge/lu5400/config/gps_brcm_conf.xml:system/etc/gps_brcm_conf.xml
 
+# CM12.1 software codec definitions (Motorola 0165ab6); LG HW stays local.
+PRODUCT_COPY_FILES += \
+    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
+
 # keylayouts and touchscreen
 PRODUCT_COPY_FILES += \
 	device/lge/lu5400/config/touch_dev.kl:system/usr/keylayout/touch_dev.kl \
@@ -82,19 +89,10 @@ PRODUCT_PACKAGES += \
 	Nfc \
 	Tag
 
-PRODUCT_PACKAGES += \
-    OMXCore \
-    libOMX_Core \
-    libdomx \
-    libOMX.TI.DUCATI1.VIDEO.H264E \
-    libOMX.TI.DUCATI1.VIDEO.MPEG4E \
-    libOMX.TI.DUCATI1.VIDEO.CAMERA \
-    libOMX.TI.DUCATI1.MISC.SAMPLE \
-    libOMX.TI.DUCATI1.VIDEO.DECODER.secure \
-    libOMX.TI.DUCATI1.VIDEO.DECODER
+# LG DOMX/OMX and libtiutils are supplied by the hash-verified vendor
+# copy list. Do not also build TI source modules with the same output names.
 
 PRODUCT_PACKAGES += \
-    libtiutils \
     libipcutils \
     libipc \
     libnotify \
@@ -131,8 +129,7 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 
-FRAMEWORKS_BASE_SUBDIRS += \
-	$(addsuffix /java, omapmmlib )
+# omapmmlib is absent from CM12.1; no framework source directory to add.
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
@@ -208,3 +205,6 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/nxp/pn544/nxp-pn544-fw-vendor.mk)
 
 $(call inherit-product-if-exists, vendor/lge/lu5400/lu5400-vendor.mk)
+
+# PIE replacement for the legacy GPU initializer (Motorola a2afd02).
+PRODUCT_PACKAGES += pvrsrvinit.lu5400
