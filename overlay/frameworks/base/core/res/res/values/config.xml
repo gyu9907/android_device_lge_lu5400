@@ -169,10 +169,9 @@
         <item>10</item>
     </integer-array>
     
-    <!-- LUN file to be used by legacy USB manager.
-         The existence of this file will be used to determine in the
-         legacy USB manager should be started. -->
-    <string name="config_legacyUmsLunFile">/sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file</string>
+    <!-- CM12.1 uses UsbDeviceManager and vold, not LegacyUsbDeviceManager.
+         UMS remains enabled in storage_list.xml; BoardConfig supplies vold's
+         TARGET_USE_CUSTOM_LUN_FILE_PATH and init.lu5400.usb.rc selects the mode. -->
 
 	<integer name="config_deviceHardwareKeys">15</integer>
 
