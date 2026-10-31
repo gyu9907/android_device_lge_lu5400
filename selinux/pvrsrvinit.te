@@ -3,6 +3,8 @@ type pvrsrvinit, domain;
 type pvrsrvinit_exec, exec_type, file_type;
 
 init_daemon_domain(pvrsrvinit)
+# omap4-common 9651b598: SrvInit must access /dev/pvrsrvkm.
+allow pvrsrvinit gpu_device:chr_file rw_file_perms;
 allow pvrsrvinit kernel:system module_request;
 allow pvrsrvinit self:capability { sys_module };
 allow pvrsrvinit system_file:file x_file_perms;
