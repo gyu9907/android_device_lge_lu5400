@@ -67,23 +67,58 @@ void gc_bvmap_meminfo(PVRSRV_KERNEL_MEM_INFO *psMemInfo)
 	buffdesc->length = psMemInfo->uAllocSize;
 	buffdesc->auxtype = BVAT_PHYSDESC;
 	buffdesc->auxptr = physdesc;
+	physdesc->structsize = sizeof(*physdesc);
 	physdesc->pagesize = PAGE_SIZE;
 	physdesc->pagearray = page_addrs;
 	physdesc->pagecount = num_pages;
 
+	/*
+	 * For ion allocated buffers let's verify how many planes this
+	 * meminfo consist of
+	 */
+	if(psMemInfo->ui32Flags & PVRSRV_MEM_ION) {
+		IMG_UINT32 num_addr_offsets = 0;
+		OSGetMemMultiPlaneInfo(psMemInfo->sMemBlk.hOSMemHandle,
+			NULL, &num_addr_offsets);
+
+		/*
+		 * Account for this meminfo plane offset (relative to the base
+		 * address) if necessary
+		 */
+		if(num_addr_offsets > 0)
+			physdesc->pageoffset = psMemInfo->planeOffsets[0];
+
+		/*
+		 * In BV there is no way to specify multiple offsets, check
+		 * all planes have the same offset and report any discrepancy
+		 */
+		for (i = 1; i < num_addr_offsets; i++) {
+			IMG_UINT32 plane_offset =
+				psMemInfo->planeOffsets[i] % PAGE_SIZE;
+			if (psMemInfo->planeOffsets[0] != plane_offset) {
+				printk(KERN_WARNING "%s: meminfo %p offset 0 %d"
+					" != offset %d %d, coalignment is "
+					"missing\n", __func__, psMemInfo,
+					psMemInfo->planeOffsets[0],
+					i, plane_offset);
+			}
+		}
+	}
+
 	bv_error = bv_entry.bv_map(buffdesc);
-	if (bv_error)
+	if (bv_error) {
+		printk(KERN_ERR "%s: Failed to map meminfo %p, bverror %d\n",
+			__func__, psMemInfo, bv_error);
 		psMemInfo->bvmap_handle = NULL;
-	else
+	} else
 		psMemInfo->bvmap_handle = buffdesc;
 
-	kfree(page_addrs);
-	kfree(physdesc);
 }
 
 void gc_bvunmap_meminfo(PVRSRV_KERNEL_MEM_INFO *psMemInfo)
 {
 	struct bvbuffdesc *buffdesc;
+	struct bvphysdesc *physdesc;
 	struct bventry bv_entry;
 	enum bverror bv_error;
 
@@ -92,8 +127,16 @@ void gc_bvunmap_meminfo(PVRSRV_KERNEL_MEM_INFO *psMemInfo)
 		return;
 
 	buffdesc = psMemInfo->bvmap_handle;
+	physdesc = (struct bvphysdesc*) buffdesc->auxptr;
 	bv_error = bv_entry.bv_unmap(buffdesc);
+	if (bv_error) {
+		printk(KERN_ERR "%s: Failed to unmap bvhandle %p from meminfo "
+			"%p, bverror %d\n", __func__, buffdesc, psMemInfo,
+			bv_error);
+	}
 
+	kfree(physdesc->pagearray);
+	kfree(physdesc);
 	kfree(psMemInfo->bvmap_handle);
 	psMemInfo->bvmap_handle = NULL;
 }

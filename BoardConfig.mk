@@ -116,9 +116,9 @@ BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/lge/lu5400/vibrator.c
 BOARD_RIL_CLASS := ../../../device/lge/lu5400/ril/
 
 KERNEL_SGX_MODULES:
-	make -C device/lge/lu5400/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android/ O=$(KERNEL_OUT) KERNELDIR=$(ANDROID_BUILD_TOP)/$(KERNEL_SRC) ARCH="arm" $(ARM_CROSS_COMPILE) KERNEL_CROSS_COMPILE=$(ARM_CROSS_COMPILE) TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
+	$(MAKE) -j16 -C device/lge/lu5400/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android ARCH=arm $(ARM_CROSS_COMPILE) KERNEL_CROSS_COMPILE="$(ARM_EABI_TOOLCHAIN)/arm-eabi-" KERNELDIR=$(abspath $(KERNEL_OUT)) OUT=$(abspath $(OUT_DIR))/sgx-lu5400 TARGET_PRODUCT=blaze_tablet BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0
 	mkdir -p $(TARGET_OUT)/modules/
-	mv $(OUT)/target/*sgx540_120.ko $(TARGET_OUT)/modules/
+	cp $(OUT_DIR)/sgx-lu5400/target/kbuild/pvrsrvkm_sgx540_120.ko $(OUT_DIR)/sgx-lu5400/target/kbuild/omaplfb_sgx540_120.ko $(TARGET_OUT)/modules/
 
 TARGET_KERNEL_MODULES := KERNEL_SGX_MODULES
 

@@ -739,16 +739,6 @@ static PVRSRV_ERROR SwapToDCBuffer(IMG_HANDLE hDevice,
 	return PVRSRV_OK;
 }
 
-static PVRSRV_ERROR SwapToDCSystem(IMG_HANDLE hDevice,
-                                   IMG_HANDLE hSwapChain)
-{
-	UNREFERENCED_PARAMETER(hDevice);
-	UNREFERENCED_PARAMETER(hSwapChain);
-	
-	
-	return PVRSRV_OK;
-}
-
 #if !defined(CONFIG_GCBV)
 IMG_BOOL OMAPLFBInitBlt(void)
 {
@@ -1686,7 +1676,6 @@ static OMAPLFB_DEVINFO *OMAPLFBInitDev(unsigned uiFBDevID)
 	psDevInfo->sDCJTable.pfnSetDCSrcColourKey = SetDCSrcColourKey;
 	psDevInfo->sDCJTable.pfnGetDCBuffers = GetDCBuffers;
 	psDevInfo->sDCJTable.pfnSwapToDCBuffer = SwapToDCBuffer;
-	psDevInfo->sDCJTable.pfnSwapToDCSystem = SwapToDCSystem;
 	psDevInfo->sDCJTable.pfnSetDCState = SetDCState;
 
 	

@@ -8,7 +8,7 @@ LOCAL_SHARED_LIBRARIES := liblog libEGL libcutils libutils libhardware libhardwa
                           libion_ti
 
 # Use the device-local CM11 OMAP4/LG implementation. It implements
-# HWC 1.0 and sync fences while retaining the LG omap_hwc_data Post2 ABI.
+# HWC 1.0 and sync fences with TI DDK 1.9 gralloc and LG DSSCOMP.
 LOCAL_SRC_FILES := \
     hwc.c \
     rgz_2d.c \
@@ -20,7 +20,7 @@ LOCAL_STATIC_LIBRARIES := libpng
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_MODULE := hwcomposer.lu5400
-LOCAL_CFLAGS := -DLOG_TAG=\"ti_hwc\" -DLGE_LU5400_GRALLOC_ABI
+LOCAL_CFLAGS := -DLOG_TAG=\"ti_hwc\"
 LOCAL_C_INCLUDES += \
     external/libpng \
     external/zlib \

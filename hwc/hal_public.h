@@ -105,10 +105,6 @@ typedef struct
 	/* The HWC was loaded. post() is no longer responsible for presents */
 	int bBypassPost;
 
-#ifdef LGE_LU5400_GRALLOC_ABI
-	/* P940/LU5400 proprietary gralloc ABI extension. */
-	int bPost2FindFramebuffer;
-#endif
 
 	/* HWC path for present posts */
 	int (*Post2)(framebuffer_device_t *fb, buffer_handle_t *buffers,

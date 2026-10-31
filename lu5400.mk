@@ -210,3 +210,6 @@ $(call inherit-product-if-exists, vendor/lge/lu5400/lu5400-vendor.mk)
 
 # Native RIL daemon and LG-compatible transport, both built from source.
 PRODUCT_PACKAGES += rild libril
+
+# DDK 1.9 gralloc uses KitKat's native backtrace library.
+PRODUCT_PACKAGES += libcorkscrew
