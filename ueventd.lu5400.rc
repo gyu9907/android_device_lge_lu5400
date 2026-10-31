@@ -47,3 +47,41 @@
 
 # HDCP
 /dev/hdcp                 0644   system     system
+
+# LU5400 MDM6600 SPI and TS0710 channels (stock init.lgelu5400board.rc).
+/dev/ttyspi0  0660  radio  radio
+/dev/ttyspi1  0660  radio  radio
+/dev/ttyspi2  0660  radio  radio
+/dev/ttyspi3  0660  radio  radio
+/dev/pts0  0660  radio  radio
+/dev/pts1  0660  radio  radio
+/dev/pts2  0660  radio  radio
+/dev/pts3  0660  radio  radio
+/dev/pts4  0660  radio  radio
+/dev/pts5  0660  radio  radio
+/dev/pts6  0660  radio  radio
+/dev/pts7  0660  radio  radio
+/dev/pts8  0660  radio  radio
+/dev/pts9  0660  radio  radio
+/dev/pts10  0660  radio  radio
+/dev/pts11  0660  radio  radio
+/dev/pts12  0660  radio  radio
+/dev/pts13  0660  radio  radio
+/dev/pts14  0660  radio  radio
+/dev/pts15  0660  radio  radio
+/dev/pts16  0660  radio  radio
+/dev/pts17  0660  radio  radio
+/dev/pts18  0660  radio  radio
+/dev/pts19  0660  radio  radio
+/dev/pts20  0660  radio  radio
+/dev/pts21  0660  radio  radio
+/dev/pts22  0660  radio  radio
+/dev/pts23  0660  radio  radio
+/dev/pts24  0660  radio  radio
+/dev/pts25  0660  radio  radio
+/dev/pts26  0660  radio  radio
+/dev/pts27  0660  radio  radio
+/dev/pts28  0660  radio  radio
+/dev/pts29  0660  radio  radio
+/dev/pts30  0660  radio  radio
+/dev/pts31  0660  radio  radio

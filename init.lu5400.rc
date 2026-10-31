@@ -74,7 +74,7 @@ on post-fs-data
     chown system system /sys/devices/platform/gps_gpio/poweron
     chown system system /sys/devices/platform/gps_gpio/reset
 
-# glgps & libgps & log setting
+# GPS working directories
     mkdir /data/gps
     chmod 770 /data/gps
     chown system system /data/gps
@@ -266,11 +266,6 @@ service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-
-service glgps /system/bin/glgps -c /system/etc/gps_brcm_conf.xml
-    class main
-    user system
-    group net_raw sdcard_rw system radio
 
 on property:dev.bootcomplete=1
     exec /system/bin/wifimac

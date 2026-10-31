@@ -8,7 +8,12 @@ DEVICE=lu5400
 DEVICE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 ROOT_DIR=$(CDPATH= cd -- "$DEVICE_DIR/../../.." && pwd)
 BASE="$ROOT_DIR/vendor/$VENDOR/$DEVICE/proprietary"
+# The manifest contains only required original blobs. In particular, do not
+# extract the source-built rild/libril or the P940 Broadcom GPS components.
 SOURCE=${1:-adb}
+if [ "$SOURCE" != adb ] && [ -d "$SOURCE/system" ]; then
+    SOURCE="$SOURCE/system"
+fi
 STAGING="$ROOT_DIR/vendor/$VENDOR/$DEVICE/.proprietary.new.$$"
 
 cleanup() {

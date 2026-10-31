@@ -34,6 +34,8 @@ cat > "$MAKEFILE" << EOF
 PRODUCT_COPY_FILES += \\
 EOF
 
+# Keep this list in sync with extract-files.sh through proprietary-files.txt.
+# Source-built RIL/graphics modules and P940 GPS files are not in the manifest.
 # The camera HAL is installed by camera/Android.mk after a build-time fixup.
 COUNT=$(awk -F'|' '!/^[[:space:]]*(#|$)/ && $1 != "lib/hw/camera.omap4.so" { count++ } END { print count + 0 }' "$FILES")
 INDEX=0

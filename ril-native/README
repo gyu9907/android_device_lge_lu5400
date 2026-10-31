@@ -1,0 +1,41 @@
+LU5400 CM11 RIL transport
+=======================
+
+rild is built from the existing CM11 hardware/ril/rild source. This directory
+builds libril; BOARD_PROVIDES_LIBRIL prevents the platform copy from colliding.
+The LG modem implementation remains the unmodified LU540141 lge-ril.so.
+
+ril.cpp/ril_event.cpp are based on the local CM11 libril implementation.
+Common platform sources are not edited. Preserve CM11's standard request
+version fallbacks and framework output format, rather than copying an ICS
+framework wire format unchanged.
+
+Stock reference: LU540141 libril.so, SHA-256
+add230345c2400a52d1feef31b5c2276957c60a929ff9cadbede48dc7de97133.
+ELF request table: 0xa6a8, 364 entries; unsolicited: 0xa014, 95 entries.
+Private entries are mapped by handler address, not guessed from P940 names.
+The LU5400 LgeCall ABI has a 32-bit isVoice at offset 16, number at 24,
+name at 32 and UUS pointer at 40. It is not the standard RIL_Call layout.
+lu5400_compat.inc reconstructs the private integer/string payload layouts.
+The lifetime of heap-backed private arguments follows stock; ownership beyond
+the callback has not been established. Do not introduce early frees without
+checking the modem-side consumers.
+
+The device Java class retains its configured P2RIL name but no longer sends
+P940 call-path/hangup/bootstrap requests or treats HDR_SMPS_CHANGED (1060)
+as a SIM event. Unimplemented private unsolicited events are logged; their
+higher-level semantics remain outside the current implementation.
+
+CM11 adds its newer signal fields and IMS application index to old responses,
+and expects a UTF-16 caller name rather than stock's byte array. Non-ASCII
+caller-name encoding and unimplemented private OEM notification semantics
+still require device-specific verification.
+
+Standard request differences: GET_IMSI (11) ignores the optional AID; data
+call deactivation (41) converts CM11 decimal strings to the stock int pair.
+DTMF_START (49), not manual network selection (47), uses a string/int pair
+in the stock native table. REA decompilation of lge-ril.so requestDtmfStart
+confirms a negative second value selects AT$LGDTMF=<key> without the optional
+argument. CM11's key-only input maps to -1; explicit legacy values are retained.
+The key-only path is compared synthetically with stock's key/-1 input. No tone
+commands were sent to the modem, and in-call DTMF remains untested.

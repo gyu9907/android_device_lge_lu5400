@@ -49,8 +49,7 @@ PRODUCT_COPY_FILES += \
 	device/lge/lu5400/config/media_profiles.xml:system/etc/media_profiles.xml \
 	device/lge/lu5400/config/media_codecs.xml:system/etc/media_codecs.xml \
 	device/lge/lu5400/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	device/lge/lu5400/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
-	device/lge/lu5400/config/gps_brcm_conf.xml:system/etc/gps_brcm_conf.xml
+	device/lge/lu5400/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal
 
 # keylayouts and touchscreen
 PRODUCT_COPY_FILES += \
@@ -208,3 +207,6 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 $(call inherit-product-if-exists, vendor/nxp/pn544/nxp-pn544-fw-vendor.mk)
 
 $(call inherit-product-if-exists, vendor/lge/lu5400/lu5400-vendor.mk)
+
+# Native RIL daemon and LG-compatible transport, both built from source.
+PRODUCT_PACKAGES += rild libril

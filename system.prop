@@ -4,6 +4,8 @@
 
 # Define modem related settings
 rild.libpath=/system/lib/lge-ril.so
+# Stock LU5400 MDM6600 SPI transport.
+rild.libargs=-d /dev/ttyspi3
 ro.telephony.ril_class=P2RIL
 ro.telephony.call_ring.multiple=false
 ro.telephony.call_ring.delay=3000

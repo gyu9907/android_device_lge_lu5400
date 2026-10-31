@@ -158,3 +158,6 @@ TW_INTERNAL_STORAGE_PATH := "/sdcard"
 TW_INTERNAL_STORAGE_MOUNT_POINT := "sdcard"
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+
+# Build the LU5400 RIL transport from source; retain the LG modem implementation.
+BOARD_PROVIDES_LIBRIL := true
