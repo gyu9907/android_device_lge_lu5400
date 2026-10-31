@@ -8,7 +8,12 @@ DEVICE=lu5400
 DEVICE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 ROOT_DIR=$(CDPATH= cd -- "$DEVICE_DIR/../../.." && pwd)
 BASE="$ROOT_DIR/vendor/$VENDOR/$DEVICE/proprietary"
+# Extract original blobs from the manifest; rild/libril are source-built.
+# Installed fixup outputs do not replace the original vendor inputs.
 SOURCE=${1:-adb}
+if [ "$SOURCE" != adb ] && [ -d "$SOURCE/system" ]; then
+    SOURCE="$SOURCE/system"
+fi
 STAGING="$ROOT_DIR/vendor/$VENDOR/$DEVICE/.proprietary.new.$$"
 
 cleanup() {
