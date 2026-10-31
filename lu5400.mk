@@ -215,3 +215,6 @@ $(call inherit-product-if-exists, vendor/lge/lu5400/lu5400-vendor.mk)
 
 # PIE replacement for the legacy GPU initializer (Motorola a2afd02).
 PRODUCT_PACKAGES += pvrsrvinit.lu5400
+
+# LG stock bootloader recovery command, prepared through a confined helper.
+PRODUCT_PACKAGES += prepare-recovery.lu5400

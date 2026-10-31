@@ -28,3 +28,7 @@
 # LU5400 Bluetooth UART and board-specific rfkill power controls.
 /dev/ttyO1                     u:object_r:hci_attach_dev:s0
 /sys/devices/platform/lbee9qmb-rfkill\.0/rfkill/rfkill[0-9]+/state u:object_r:sysfs_bluetooth_writable:s0
+
+# Stock LG bootloader message partition and its single-purpose writer.
+/dev/block/mmcblk0p6                  u:object_r:lu5400_misc_block_device:s0
+/system/bin/prepare-recovery\.lu5400  u:object_r:lu5400_recovery_prep_exec:s0

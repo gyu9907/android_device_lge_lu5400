@@ -1,0 +1,16 @@
+# Confine the LG bootloader-message helper to misc, not all block devices.
+type lu5400_recovery_prep, domain;
+type lu5400_recovery_prep_exec, exec_type, file_type;
+type lu5400_misc_block_device, dev_type;
+
+domain_auto_trans(init_shell, lu5400_recovery_prep_exec, lu5400_recovery_prep)
+# The executable/linker descriptors are opened before the domain transition.
+allow lu5400_recovery_prep init_shell:fd use;
+# misc is system:radio 0660; root needs DAC bypass, still confined to misc.
+allow lu5400_recovery_prep self:capability dac_override;
+allow lu5400_recovery_prep block_device:dir search;
+allow lu5400_recovery_prep block_device:lnk_file read;
+allow lu5400_recovery_prep lu5400_misc_block_device:blk_file { open read write getattr };
+
+# Preserve the existing OTA uncrypt writer's access after specializing the label.
+allow uncrypt lu5400_misc_block_device:blk_file w_file_perms;

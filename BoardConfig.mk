@@ -136,14 +136,15 @@ BOARD_SEPOLICY_UNION := \
     file_contexts \
     pvrsrvinit.te \
     device.te \
-    domain.te
+    domain.te \
+    recovery_prep.te
 
 BOARD_RECOVERY_ALWAYS_WIPES := true
 TARGET_RECOVERY_INITRC := device/lge/lu5400/recovery/init.rc
 TARGET_RECOVERY_FSTAB := device/lge/lu5400/fstab.lu5400
 RECOVERY_FSTAB_VERSION := 2
 BOARD_UMS_LUNFILE := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun0/file"
-TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/platform/omap/omap_hsmmc.1/by-name/misc; sync"
+TARGET_RECOVERY_PRE_COMMAND := "/system/bin/prepare-recovery.lu5400"
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HDPI_RECOVERY := true
 BOARD_USE_CUSTOM_FONT := true
