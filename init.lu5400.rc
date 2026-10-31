@@ -36,6 +36,8 @@ on post-fs-data
 
     chown system system /persist
     chmod 0771 /persist
+    # Label the existing MPL calibration file without replacing it.
+    restorecon /persist/cal.bin
 
     mkdir /data/misc/wifi 0775 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi

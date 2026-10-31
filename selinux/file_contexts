@@ -5,6 +5,8 @@
 /system/vendor/bin/pvrsrvinit_SGX540_120  u:object_r:pvrsrvinit_exec:s0
 
 # Sensors
+# Legacy MPL runs in system_server; preserve its existing calibration bytes.
+/persist/cal\.bin               u:object_r:system_data_file:s0
 /dev/timerirq                  u:object_r:sensors_device:s0
 /data/misc/sens/fifo_dat        u:object_r:sensors_device:s0
 /data/misc/sens/fifo_cmd        u:object_r:sensors_device:s0
