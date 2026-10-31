@@ -79,6 +79,10 @@ PRODUCT_PACKAGES += \
 	wifimac \
 	Prada30Settings
 
+# Explicit Wi-Fi userspace packages, as in omap4-common cm-12.1.
+# Retain the LU5400 bcmdhd driver and firmware configuration.
+PRODUCT_PACKAGES += wpa_supplicant wpa_supplicant.conf
+
 # Device-local legacy EXIF compatibility for the proprietary camera HAL.
 PRODUCT_PACKAGES += camera.lu5400 libjex
 
