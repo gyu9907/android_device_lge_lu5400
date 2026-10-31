@@ -485,7 +485,8 @@ static int hdmi_adev_open_output_stream(audio_hw_device_t *dev,
                                         audio_devices_t devices,
                                         audio_output_flags_t flags,
                                         struct audio_config *config,
-                                        struct audio_stream_out **stream_out)
+                                        struct audio_stream_out **stream_out,
+                                   const char *address)
 {
     hdmi_out_t *out = 0;
     struct pcm_config *pcm_config = 0;
@@ -584,7 +585,10 @@ static int hdmi_adev_open_input_stream(audio_hw_device_t *dev,
                                        audio_io_handle_t handle,
                                        audio_devices_t devices,
                                        struct audio_config *config,
-                                       struct audio_stream_in **stream_in)
+                                       struct audio_stream_in **stream_in,
+                                  audio_input_flags_t flags,
+                                  const char *address,
+                                  audio_source_t source)
 {
     TRACE();
     return -ENOSYS;
