@@ -43,7 +43,12 @@ public class P2RIL extends RIL implements CommandsInterface {
     private int mCallPath = -1;
 
     public P2RIL(Context context, int networkMode, int cdmaSubscription) {
-        super(context, networkMode, cdmaSubscription);
+        this(context, networkMode, cdmaSubscription, null);
+    }
+
+    public P2RIL(Context context, int networkMode, int cdmaSubscription,
+            Integer instanceId) {
+        super(context, networkMode, cdmaSubscription, instanceId);
         PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
