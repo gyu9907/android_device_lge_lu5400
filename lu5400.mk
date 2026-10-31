@@ -50,8 +50,7 @@ PRODUCT_COPY_FILES += \
 	device/lge/lu5400/config/media_profiles.xml:system/etc/media_profiles.xml \
 	device/lge/lu5400/config/media_codecs.xml:system/etc/media_codecs.xml \
 	device/lge/lu5400/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	device/lge/lu5400/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal \
-	device/lge/lu5400/config/gps_brcm_conf.xml:system/etc/gps_brcm_conf.xml
+	device/lge/lu5400/config/bcmdhd.cal:system/etc/wifi/bcmdhd.cal
 
 # CM12.1 software codec definitions (Motorola 0165ab6); LG HW stays local.
 PRODUCT_COPY_FILES += \
@@ -159,6 +158,8 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml
 	
 # ril
+$(call project-set-path,ril,device/lge/lu5400/ril-compat)
+PRODUCT_PACKAGES += rild libril lge-ril libini libhdcp gps.omap4
 PRODUCT_COPY_FILES += \
 	device/lge/lu5400/config/ipc_channels.config:system/etc/ipc_channels.config
 

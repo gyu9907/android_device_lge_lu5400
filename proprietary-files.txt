@@ -5,9 +5,7 @@ lib/libmllite.so|8c04c8be55079915f7439e3128cc289bc93c85f6
 lib/libmlplatform.so|74e8873522e43d8d5f8974c4dc2c7bf5d289a37f
 
 ## ril
-bin/rild|ff7be02f62ee13fcd45a84e051db06717a4b828f
-lib/lge-ril.so|477584a66c399d21427b2ccb87b33587ab0dc492
-lib/libril.so|87bdac8e2fc517a028824d0abffc38210fde5f23
+lib/lge-ril.so|55903a99af34413e7f6c284d1e61f79395a32883
 
 ## wifi
 vendor/firmware/fw_bcmdhd.bin|2bf4f515932a3a003a95aa48c8d6045b98a4c408
@@ -18,10 +16,8 @@ vendor/firmware/fw_bcmdhd_p2p.bin|134817f41efdce01b039c553f9a0839ddfc44284
 lib/hw/camera.omap4.so|f4ee2edef467473b9e1de81c913d843a4f9dc634
 
 ## gps
-bin/glgps|87518beb02351160c387c8fd5bb5e3af419a6dea
-lib/hw/gps.omap4.so|c11bb966d900b383d1140941718b818017d2e007
-lib/libini.so|3036eece3da251c49369e809845558702a60fb2c
-etc/cert/lge.cer|a8a1afdc522fe723388aaace81e3674038bbb404
+lib/hw/gps.omap4.so|2695c14a9af39da08c24f3c2eb5ed15c07eb1016
+lib/libini.so|f1243a21d6332cc28f460c436486b11b1cd07772
 
 ## widevine
 vendor/lib/libwvdrm_L3.so|d3df2daf952f8c90c23d1ca1f263d6eb5314abe3
@@ -43,7 +39,7 @@ vendor/lib/egl/libGLESv2_POWERVR_SGX540_120.so|00400140d9248fe1d0510768eedbe2211
 vendor/bin/pvrsrvinit_SGX540_120|fd6b76f2efa9e7c03e58ecb28860593326803a43
 vendor/bin/pvrsrvinit|668b568790cf907b28e2afae2e7f9866d79d7b62
 vendor/lib/hw/gralloc.omap4.so|4c431243090c5acb9687ea9025df9934e389d94f
-lib/libhdcp.so|77dd1782400b411d76688063169efc4c3fe2e06f
+lib/libhdcp.so|8a3d62cfb6e707ba8facc4f3aac05b57ff68c866
 lib/liblgehdmi.so|43f77e8874271e9a5d4aa8b0a77b72fa401f7034
 vendor/lib/libbltsville_cpu.so|838fd314c122a8b42f6328291f3fb39146bfd19c
 vendor/lib/libbltsville_ticpu.2.0.0.10.so|838fd314c122a8b42f6328291f3fb39146bfd19c

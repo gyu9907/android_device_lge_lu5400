@@ -1,0 +1,41 @@
+LU5400 CM12.1 RIL and modem GPS compatibility
+============================================
+
+native/ is based on the unchanged local CM12.1 hardware/ril/libril sources.
+LU540141 request/response layouts come from the CM11 device implementation
+(commit 5208258); the proprietary lge-ril.so modem implementation is retained.
+The source transport keeps CM12.1 standard parcel encodings and version
+fallbacks. LG call records use a 32-bit isVoice; GET_IMSI, DEACTIVATE_DATA_CALL
+and DTMF_START use the verified LG layouts. Private request handlers retain
+stock allocation lifetimes where modem ownership has not been established.
+
+CM12.1 standard requests 109..131 are unsupported by this old modem and
+return REQUEST_NOT_SUPPORTED. The last standard request is
+SET_RADIO_CAPABILITY (131); LG private 134 and later entries retain their
+original numeric table positions. They must not be shifted by a newer
+platform header or an omitted hole in the table.
+The Java P2RIL class preserves its configured name but does not send P940
+XMM commands. LG notifications 1038..1094 are not interpreted as Lollipop
+standard events; their unimplemented framework semantics are still a limit.
+
+Raw LU540141 inputs remain in vendor/lge/lu5400/proprietary. fixup_ril.py
+accepts only their exact SHA-256 hashes and verifies ELF segments, relocation
+layout and all original destructor instructions. It changes the single CRT
+absolute __dso_handle literal into a PC-relative calculation and removes only
+its now-unnecessary relocation and TEXTREL flag. Runtime algorithms and all
+other relocations remain unchanged. There is no non-PIE linker exception.
+rild is built as a normal PIE executable; libril is built from source.
+
+The stock GPS HAL is a shared library using MDM6600 channel /dev/pts9.
+It replaces the mismatched Broadcom daemon/frontend path. The modem itself
+uses /dev/ttyspi3 and the stock ipc_channels.config. File contexts map actual
+modem nodes to existing radio_device and gps_device types; no new allow rule
+or permissive setting is added. A rebuilt boot ramdisk is needed to persist
+ueventd/file_contexts changes across a kernel reboot.
+
+Reference comparison: CyanogenMod omap4-common b67054f69f8b463f026abeb6a205ac0f5ae9e9f8
+rejects unsupported older-modem commands at the device boundary. Motorola GPS
+wrapper 008913668adc2da7f836f0f5c679d0d935eac1ef (and follow-up 0bbb95c)
+fixes a signed pthread_t check; LU540141's inspected init ignores that callback
+return value, so that wrapper is not copied. Motorola modem blobs/IPC are not
+interchangeable with the LU540141 LG implementation.

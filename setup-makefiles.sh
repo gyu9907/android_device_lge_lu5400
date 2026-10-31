@@ -34,12 +34,12 @@ cat > "$MAKEFILE" << EOF
 PRODUCT_COPY_FILES += \\
 EOF
 
-# The camera HAL is installed by camera/Android.mk after a build-time fixup.
-COUNT=$(awk -F'|' '!/^[[:space:]]*(#|$)/ && $1 != "lib/hw/camera.omap4.so" { count++ } END { print count + 0 }' "$FILES")
+# Camera and RIL modules are installed after device-local build-time fixups.
+COUNT=$(awk -F'|' '!/^[[:space:]]*(#|$)/ && $1 != "lib/hw/camera.omap4.so" && $1 != "lib/libril.so" && $1 != "lib/lge-ril.so" && $1 != "bin/rild" && $1 != "lib/libini.so" && $1 != "lib/libhdcp.so" && $1 != "lib/hw/gps.omap4.so" { count++ } END { print count + 0 }' "$FILES")
 INDEX=0
 while IFS='|' read -r FILE EXPECTED_HASH; do
     case "$FILE" in
-        ''|'#'*|'lib/hw/camera.omap4.so') continue ;;
+        ''|'#'*|'lib/hw/camera.omap4.so'|'lib/libril.so'|'lib/lge-ril.so'|'bin/rild'|'lib/libini.so'|'lib/libhdcp.so'|'lib/hw/gps.omap4.so') continue ;;
     esac
     INDEX=$((INDEX + 1))
     LINEEND=' \'

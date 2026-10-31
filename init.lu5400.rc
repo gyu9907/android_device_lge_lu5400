@@ -83,7 +83,8 @@ on post-fs-data
     chown system system /data/gps
     mkdir /data/gps/log
     chmod 770 /data/gps/log
-    chown system system /data/gps/log    
+    chown system system /data/gps/log
+    restorecon_recursive /data/gps
     mkdir /data/cache
     chmod 770 /data/cache
     chown system system /data/cache
@@ -271,11 +272,6 @@ service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-
-service glgps /system/bin/glgps -c /system/etc/gps_brcm_conf.xml
-    class main
-    user system
-    group net_raw sdcard_rw system radio
 
 on property:dev.bootcomplete=1
     exec /system/bin/wifimac

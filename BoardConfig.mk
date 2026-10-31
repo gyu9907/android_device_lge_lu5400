@@ -119,6 +119,8 @@ BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/lge/lu5400/vibrator.c
 
 # Radio fixes
 BOARD_RIL_CLASS := ../../../device/lge/lu5400/ril/
+# Keep LG modem ABI; regenerate CRT-only PIC-compatible vendor libraries.
+BOARD_PROVIDES_LIBRIL := true
 
 KERNEL_SGX_MODULES:
 	make -C device/lge/lu5400/sgx-modules/eurasia_km/eurasiacon/build/linux2/omap4430_android/ O=$(KERNEL_OUT) KERNELDIR=$(ANDROID_BUILD_TOP)/$(KERNEL_SRC) ARCH="arm" $(KERNEL_CROSS_COMPILE) KERNEL_CROSS_COMPILE="$(KERNEL_TOOLCHAIN_PATH)" TARGET_PRODUCT="blaze_tablet" BUILD=release TARGET_SGX=540 PLATFORM_VERSION=4.0

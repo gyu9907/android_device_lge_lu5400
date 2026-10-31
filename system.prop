@@ -4,6 +4,7 @@
 
 # Define modem related settings
 rild.libpath=/system/lib/lge-ril.so
+rild.libargs=-d /dev/ttyspi3
 ro.telephony.ril_class=P2RIL
 ro.telephony.call_ring.multiple=false
 ro.telephony.call_ring.delay=3000
@@ -31,3 +32,6 @@ ro.bq.gpu_to_cpu_unsupported=1
 
 # Legacy camera HAL: use Camera1 in the CM12.1 portability layer (300c5aec).
 camera2.portability.force_api=1
+
+# LU540141 GPS HAL uses the MDM6600 TS0710 channel /dev/pts9.
+ro.hardware.gps=omap4
