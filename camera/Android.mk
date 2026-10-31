@@ -8,6 +8,7 @@ LOCAL_MODULE := libjex
 LOCAL_MODULE_TAGS := optional
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/jhead
 LOCAL_SRC_FILES := \
+    refbase_compat.cpp \
     jhead/exif.c \
     jhead/gpsinfo.c \
     jhead/iptc.c \

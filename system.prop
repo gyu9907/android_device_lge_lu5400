@@ -28,3 +28,6 @@ ro.nfc.port=I2C
 # OMAP4/SGX cannot reliably map GPU-rendered TILER buffers for CPU reads.
 # Force SurfaceFlinger screenshots through the glReadPixels fallback.
 ro.bq.gpu_to_cpu_unsupported=1
+
+# Legacy camera HAL: use Camera1 in the CM12.1 portability layer (300c5aec).
+camera2.portability.force_api=1
