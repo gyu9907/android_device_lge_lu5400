@@ -50,6 +50,9 @@ TARGET_BOOTLOADER_BOARD_NAME := lu5400
 TARGET_SPECIFIC_HEADER_PATH := device/lge/lu5400/include/
 BOARD_HARDWARE_CLASS := device/lge/lu5400/cmhw
 
+# Include Noto CJK (including Korean) instead of legacy fallback fonts.
+EXTENDED_FONT_FOOTPRINT := true
+
 USE_OPENGL_RENDERER := true
 BOARD_EGL_CFG := device/lge/lu5400/config/egl.cfg
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
