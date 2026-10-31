@@ -21,6 +21,9 @@
      for different hardware and product builds. -->
 <resources>
 
+    <!-- LU540141 GPS needs native_init before setting its SUPL server. -->
+    <bool name="config_legacyGpsHAL">true</bool>
+
     <!-- Default color for notification LED is white. -->
     <color name="config_defaultNotificationColor">#ffffffff</color>
 
