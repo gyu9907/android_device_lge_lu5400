@@ -191,9 +191,9 @@ PRODUCT_PROPERTY_OVERRIDES += dalvik.vm.dexopt-flags=m=y,u=n
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-# Set default USB interface
+# Set default USB interface; post_process_props.py adds adb for debug builds.
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-	persist.sys.usb.config=mtp,adb
+	persist.sys.usb.config=mtp
 
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
