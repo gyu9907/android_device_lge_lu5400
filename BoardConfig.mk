@@ -103,6 +103,8 @@ BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 COMMON_GLOBAL_CFLAGS += -DICS_CAMERA_BLOB
 # Motorola 900cf8b: legacy vector ABI is target-only.
 TARGET_RELEASE_CPPFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
+# Enable the existing CM12.1 shim required by the LG Widevine blob.
+TARGET_RELEASE_CPPFLAGS += -DADD_LEGACY_ACQUIRE_BUFFER_SYMBOL
 
 # The SGX540 cannot reliably feed GPU-rendered TILER buffers back to the CPU.
 # Make every screenshot caller, including the ElectronBeam animation, request
