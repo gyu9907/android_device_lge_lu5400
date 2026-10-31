@@ -10,5 +10,6 @@ public class Startup extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent bootintent) {
         VibratorTuningPreference.restore(context);
         GpuOverclock.restore(context);
+        ColorProfile.restore(context);
     }
 }

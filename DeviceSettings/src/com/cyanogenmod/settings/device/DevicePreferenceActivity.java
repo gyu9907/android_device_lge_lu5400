@@ -48,6 +48,8 @@ public class DevicePreferenceActivity extends PreferenceFragment {
         mVibratorTuning = (VibratorTuningPreference) findPreference(KEY_VIBRATOR_TUNING);
         mVibratorTuning.setEnabled(VibratorTuningPreference.isSupported());
 
+        ColorProfile.configure((ListPreference) findPreference(ColorProfile.KEY));
+
         mGpuOverclock = (ListPreference) findPreference(KEY_GPU_OVERCLOCK);
         mGpuOverclock.setEnabled(GpuOverclock.isSupported());
         mGpuOverclock.setOnPreferenceChangeListener(new GpuOverclock());

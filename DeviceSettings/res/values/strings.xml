@@ -19,4 +19,9 @@
     
     <string name="credits_presets">Credits: ale.landra91, cpaixao, provolinoom, milaq</string>
 
+    <string name="category_display_title">Display</string>
+    <string name="color_profile_title">Color profile</string>
+    <string name="color_profile_lg">LG Default</string>
+    <string name="color_profile_custom">Custom</string>
+    <string name="color_profile_none">Uncorrected</string>
 </resources>

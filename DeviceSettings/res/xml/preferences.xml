@@ -16,6 +16,15 @@
             android:summary="@string/touchlight_summary" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/category_display_title">
+        <ListPreference
+            android:key="gamma_profile"
+            android:title="@string/color_profile_title"
+            android:entries="@array/color_profile_entries"
+            android:entryValues="@array/color_profile_values"
+            android:defaultValue="0" />
+    </PreferenceCategory>
+
     <!-- GPU -->
     <PreferenceCategory android:key="category_gpu"
         android:title="@string/category_gpu_title">
