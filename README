@@ -66,6 +66,22 @@ TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS in BoardConfig.mk for such platform
 blobs; a later port must explicitly evaluate this requirement. No Android 7
 device tree or framework source is modified by this CM11 change.
 
+Device-local OMX teardown fix
+-----------------------------
+
+omx/board.mk registers a LU5400-only shared-library hook for libstagefright_omx.
+It replaces the OMXNodeInstance.cpp compile input with a generated copy under
+out, keeping frameworks/av and the platform module's dependencies unchanged.
+The generated freeNode ends its existing lock scope before delete this. This
+prevents the lock destructor from writing to an already freed node while
+retaining the lock around component teardown and node-map removal.
+
+omx/fixup_free_node.py verifies the original freeNode function before generating
+the replacement. Changes elsewhere in the platform file pass through. If a ROM
+update changes that function, the build stops for review rather than silently
+applying an outdated fix. Newer reference-counted OMX implementations without
+delete this do not need this legacy fix. No kernel or vendor changes are needed.
+
 Display color calibration
 -------------------------
 

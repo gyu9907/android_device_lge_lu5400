@@ -67,6 +67,9 @@ BOARD_USES_TI_CAMERA_HAL := true
 TI_OMAP4_CAMERAHAL_VARIANT := DONOTBUILDIT
 HARDWARE_OMX := true
 
+# Fix legacy OMX node teardown in generated build inputs only.
+include device/lge/lu5400/omx/board.mk
+
 BOARD_VOLD_MAX_PARTITIONS := 16
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/virtual/android_usb/android0/f_mass_storage/lun%d/file"
 TARGET_USERIMAGES_USE_EXT4 := true
