@@ -35,7 +35,11 @@ from ota_from_target_files import *
 __doc__ = ota_from_target_files.__doc__
 
 def CopyBootFiles(input_zip, output_zip):
-    output_zip.write(os.path.join(TARGET_DIR, "boot.img"),"boot.img")
+    path = os.path.join(TARGET_DIR, "boot.img")
+    with open(path, "rb") as image:
+        data = image.read()
+    common.CheckSize(data, "boot.img", OPTIONS.info_dict)
+    common.ZipWriteStr(output_zip, "boot.img", data)
 
 def WriteFullOTAPackage(input_zip, output_zip):
   # TODO: how to determine this?  We don't know what version it will
@@ -64,9 +68,15 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #  ts = GetBuildProp("ro.build.date.utc", OPTIONS.info_dict)
   #  script.AssertOlderBuild(ts)
 
-  AppendAssertions(script, OPTIONS.info_dict)
+  AppendAssertions(script, OPTIONS.info_dict, None)
   device_specific.FullOTA_Assertions()
   device_specific.FullOTA_InstallBegin()
+
+  # CM12.1 backup tool now lives in install/bin inside the OTA.
+  CopyInstallTools(output_zip)
+  script.UnpackPackageDir("install", "/tmp/install")
+  script.SetPermissionsRecursive("/tmp/install", 0, 0, 0755, 0644, None, None)
+  script.SetPermissionsRecursive("/tmp/install/bin", 0, 0, 0755, 0755, None, None)
 
   if OPTIONS.backuptool:
     script.Mount("/system")
@@ -86,13 +96,14 @@ def WriteFullOTAPackage(input_zip, output_zip):
   #script.UnpackPackageDir("recovery", "/system")
   script.UnpackPackageDir("system", "/system")
 
-  symlinks = CopySystemFiles(input_zip, output_zip)
+  system_items = ItemSet("system", "META/filesystem_config.txt")
+  symlinks = CopyPartitionFiles(system_items, input_zip, output_zip)
   script.MakeSymlinks(symlinks)
 
   CopyBootFiles(input_zip, output_zip)
 
-  Item.GetMetadata(input_zip)
-  Item.Get("system").SetPermissions(script)
+  system_items.GetMetadata(input_zip)
+  system_items.Get("system").SetPermissions(script)
 
   script.ShowProgress(0.2, 0)
 
@@ -110,7 +121,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
     script.AppendExtra(OPTIONS.extra_script)
 
   script.UnmountAll()
-  script.AddToZip(input_zip, output_zip)
+  script.AddToZip(input_zip, output_zip, input_path=OPTIONS.updater_binary)
   WriteMetadata(metadata, output_zip)
 ota_from_target_files.WriteFullOTAPackage = WriteFullOTAPackage
 
