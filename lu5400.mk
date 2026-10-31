@@ -86,6 +86,9 @@ PRODUCT_PACKAGES += wpa_supplicant wpa_supplicant.conf
 # Device-local legacy EXIF compatibility for the proprietary camera HAL.
 PRODUCT_PACKAGES += camera.lu5400 libjex
 
+# Filter the legacy wake-gesture placeholder from the vendor sensor list.
+PRODUCT_PACKAGES += sensors.lu5400
+
 # NFC
 PRODUCT_PACKAGES += \
 	libnfc \
