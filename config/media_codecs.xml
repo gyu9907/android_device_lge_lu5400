@@ -87,6 +87,13 @@ Only the three quirks included above are recognized at this point:
             <Quirk name="requires-allocate-on-input-ports" />
             <Quirk name="requires-allocate-on-output-ports" />
         </MediaCodec>
+        <!-- The legacy Google AVC decoder cannot decode LG High-profile
+             thumbnails. Keep Ducati first for playback, but select FFmpeg
+             before Google when the retriever requests software codecs only. -->
+        <MediaCodec name="OMX.ffmpeg.h264.decoder" type="video/avc">
+            <Limit name="size" min="2x2" max="2048x2048" />
+            <Limit name="alignment" value="2x2" />
+        </MediaCodec>
     </Decoders>
 
     <Encoders>
