@@ -219,3 +219,6 @@ PRODUCT_PACKAGES += pvrsrvinit.lu5400
 
 # LG stock bootloader recovery command, prepared through a confined helper.
 PRODUCT_PACKAGES += prepare-recovery.lu5400
+
+# DDK 1.9 gralloc requires the CM12 legacy backtrace compatibility symbols.
+PRODUCT_PACKAGES += libcorkscrew

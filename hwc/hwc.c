@@ -1991,9 +1991,6 @@ static int hwc_set(struct hwc_composer_device_1 *dev,
 
         hwc_dev->comp_data.blit_data.rgz_flags = hwc_dev->blit_flags;
         hwc_dev->comp_data.blit_data.rgz_items = hwc_dev->blit_num;
-#ifdef LGE_LU5400_GRALLOC_ABI
-        hwc_dev->fb_dev->bPost2FindFramebuffer = hwc_dev->blit_num;
-#endif
         int omaplfb_comp_data_sz = sizeof(hwc_dev->comp_data) +
             (hwc_dev->comp_data.blit_data.rgz_items * sizeof(struct rgz_blt_entry));
 
@@ -2526,9 +2523,6 @@ static int hwc_device_open(const hw_module_t* module, const char* name, hw_devic
             return -EFAULT;
         }
         hwc_mod->fb_dev->bBypassPost = 1;
-#ifdef LGE_LU5400_GRALLOC_ABI
-        hwc_mod->fb_dev->bPost2FindFramebuffer = 0;
-#endif
     }
 
     hwc_dev = (omap_hwc_device_t *)malloc(sizeof(*hwc_dev));
